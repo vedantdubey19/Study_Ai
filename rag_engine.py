@@ -1,11 +1,11 @@
 """
 RAG Engine for Study AI
 Handles document ingestion, chunking, embedding, storage, and retrieval.
-All processing runs locally via Ollama + ChromaDB.
+Uses ChromaDB's default built-in embedding function (ONNX-based MiniLM-L6-v2)
+which runs completely locally inside the Python process (works on local machine and cloud).
 """
 
 import os
-import ollama
 import chromadb
 from PyPDF2 import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -15,7 +15,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 # -------------------------
 CHROMA_DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chroma_db")
 COLLECTION_NAME = "study_ai_docs"
-EMBEDDING_MODEL = "nomic-embed-text"
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
 TOP_K_RESULTS = 5
@@ -66,21 +65,6 @@ def chunk_text(text: str) -> list[str]:
 
 
 # -------------------------
-# Embeddings
-# -------------------------
-def get_embedding(text: str) -> list[float]:
-    """Generate an embedding for a single text using Ollama."""
-    response = ollama.embed(model=EMBEDDING_MODEL, input=text)
-    return response["embeddings"][0]
-
-
-def get_embeddings_batch(texts: list[str]) -> list[list[float]]:
-    """Generate embeddings for a batch of texts using Ollama."""
-    response = ollama.embed(model=EMBEDDING_MODEL, input=texts)
-    return response["embeddings"]
-
-
-# -------------------------
 # ChromaDB Operations
 # -------------------------
 def get_chroma_client():
@@ -100,8 +84,8 @@ def get_or_create_collection(client=None):
 
 def index_documents(chunks: list[str], source_name: str, collection=None) -> int:
     """
-    Embed and store document chunks in ChromaDB.
-    Returns the number of chunks indexed.
+    Store document chunks in ChromaDB. 
+    ChromaDB automatically generates embeddings using its built-in model.
     """
     if collection is None:
         collection = get_or_create_collection()
@@ -109,17 +93,13 @@ def index_documents(chunks: list[str], source_name: str, collection=None) -> int
     if not chunks:
         return 0
 
-    # Generate embeddings in batch
-    embeddings = get_embeddings_batch(chunks)
-
     # Create unique IDs and metadata for each chunk
     ids = [f"{source_name}_{i}" for i in range(len(chunks))]
     metadatas = [{"source": source_name, "chunk_index": i} for i in range(len(chunks))]
 
-    # Upsert into ChromaDB
+    # Upsert into ChromaDB (without specifying embeddings, so Chroma uses its built-in embedder)
     collection.upsert(
         ids=ids,
-        embeddings=embeddings,
         documents=chunks,
         metadatas=metadatas,
     )
@@ -130,7 +110,7 @@ def index_documents(chunks: list[str], source_name: str, collection=None) -> int
 def query_documents(question: str, n_results: int = TOP_K_RESULTS, collection=None) -> list[dict]:
     """
     Query ChromaDB for the most relevant chunks.
-    Returns a list of dicts with 'text', 'source', and 'distance' keys.
+    ChromaDB automatically embeds the question using the same built-in model.
     """
     if collection is None:
         collection = get_or_create_collection()
@@ -138,24 +118,22 @@ def query_documents(question: str, n_results: int = TOP_K_RESULTS, collection=No
     if collection.count() == 0:
         return []
 
-    # Generate embedding for the question
-    question_embedding = get_embedding(question)
-
-    # Query ChromaDB
+    # Query ChromaDB directly using query_texts (Chroma handles the embedding)
     results = collection.query(
-        query_embeddings=[question_embedding],
+        query_texts=[question],
         n_results=min(n_results, collection.count()),
         include=["documents", "metadatas", "distances"],
     )
 
     # Format results
     retrieved = []
-    for i in range(len(results["documents"][0])):
-        retrieved.append({
-            "text": results["documents"][0][i],
-            "source": results["metadatas"][0][i].get("source", "Unknown"),
-            "distance": results["distances"][0][i],
-        })
+    if results and results["documents"]:
+        for i in range(len(results["documents"][0])):
+            retrieved.append({
+                "text": results["documents"][0][i],
+                "source": results["metadatas"][0][i].get("source", "Unknown"),
+                "distance": results["distances"][0][i],
+            })
 
     return retrieved
 
