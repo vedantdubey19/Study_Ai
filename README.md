@@ -14,6 +14,12 @@
   <a href="https://linkedin.com/in/vedantdubey20"><img src="https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
 </p>
 
+<p align="center">
+  <a href="https://studyai-6q5gxcbbl4l63jh8clpnf5.streamlit.app/" target="_blank">
+    <img src="https://img.shields.io/badge/🚀_Live_Demo-Click_Here_to_Try-FF4B4B?style=for-the-badge" alt="Live Demo"/>
+  </a>
+</p>
+
 ---
 
 ## 📖 Introduction
