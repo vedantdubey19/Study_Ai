@@ -1,94 +1,110 @@
-# 🤖 AI-Study Notes Generator (RAG-Powered)
+# 🤖 Study AI — RAG-Powered Study Notes Generator
 
 <p align="center">
   <img src="screenshots/Home_screen.png" alt="Study AI Banner" width="100%" style="border: 2px solid #1a1a1a; border-radius: 8px; box-shadow: 4px 4px 0px 0px #1a1a1a;"/>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Powered%20By-Ollama%20%2B%20Gemma%203-lightgrey?style=for-the-badge&logo=cpu&logoColor=white&color=262626" alt="Ollama + Gemma 3"/>
-  <img src="https://img.shields.io/badge/RAG-ChromaDB%20%2B%20Nomic%20Embed-blue?style=for-the-badge&logo=database&logoColor=white&color=1a1a2e" alt="RAG Pipeline"/>
-  <img src="https://img.shields.io/badge/UI-Custom%20Streamlit-red?style=for-the-badge&logo=streamlit&logoColor=white&color=171717" alt="Custom Streamlit UI"/>
-  <img src="https://img.shields.io/badge/Privacy-100%25%20Local%20%26%20Private-green?style=for-the-badge&logo=shield&logoColor=white&color=404040" alt="Privacy First"/>
+  <a href="https://github.com/vedantdubey19/Study_Ai/stargazers"><img src="https://img.shields.io/github/stars/vedantdubey19/Study_Ai?style=for-the-badge&color=gold" alt="GitHub Stars"/></a>
+  <a href="https://github.com/vedantdubey19/Study_Ai/fork"><img src="https://img.shields.io/github/forks/vedantdubey19/Study_Ai?style=for-the-badge&color=blue" alt="GitHub Forks"/></a>
+  <a href="https://linkedin.com/in/vedantdubey20"><img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin&logoColor=white&color=0077B5" alt="LinkedIn"/></a>
+  <img src="https://img.shields.io/badge/Privacy-100%25%20Local-green?style=for-the-badge&logo=shield&logoColor=white&color=404040" alt="Privacy First"/>
 </p>
 
 ---
 
 ## 📖 Introduction
 
-**Study AI** is a **RAG-powered** (Retrieval-Augmented Generation) study notes generator. Upload your own PDFs and text files, and get AI-generated answers **grounded in your actual documents** — not just LLM training data.
+**Study AI** is a premium, RAG-powered (Retrieval-Augmented Generation) study notes generator. It allows you to upload your own study materials (PDFs, textbooks, or TXT files) and obtain precise, comprehensive notes and answers **grounded directly in your documents**. 
 
-Built with **Ollama**, **Gemma 3**, **ChromaDB**, and a custom **glassmorphic matte-black** Streamlit interface. Everything runs **100% locally** on your machine.
+With support for both **100% local execution** (using Ollama) and **cloud-based providers** (Google Gemini & Groq APIs), Study AI gives you the flexibility of local privacy or high-speed cloud generation—all wrapped in an ultra-premium, responsive **glassmorphic matte-black** design.
+
+⭐ **If you find this project helpful, please consider leaving a star to support its development!**
 
 ---
 
 ## ✨ Key Features
 
-*   **📄 RAG Pipeline**: Upload PDFs/TXT files → documents are chunked, embedded, and stored → ask questions → get grounded answers with source citations
-*   **🔒 Local-First Privacy**: All processing happens on your machine using Ollama. No API keys, no cloud services.
-*   **🎨 Premium Glassmorphism UI**: Monochromatic dark-mode styling with frosted-glass containers, glowing borders, and silver gradients.
-*   **📑 Source Citations**: Every answer shows which source chunks were used, with relevance scores.
-*   **🔄 Two Modes**: 
-    - **RAG Mode**: Ask questions about your uploaded documents
-    - **General Mode**: Generate study notes on any topic from LLM knowledge
-*   **📥 One-Click Export**: Download generated notes as text files.
-*   **🗄️ Persistent Knowledge Base**: Indexed documents persist between sessions via ChromaDB.
+*   **📄 Intelligent RAG Pipeline**: Upload PDFs or TXT files. The app chunks, embeds, and stores them in a local vector database, letting you ask questions that are answered strictly using your uploaded materials.
+*   **🤖 Multi-Provider LLM Support**:
+    *   **Ollama (Local)**: Run completely offline and privately using `gemma3:1b` (or any local model).
+    *   **Google Gemini (API)**: Use the powerful `gemini-2.0-flash` or `gemini-1.5-flash` for high-quality, smart responses.
+    *   **Groq (API)**: Experience blazing-fast speeds with models like `llama-3.3-70b`, `gemma2-9b`, and `mixtral-8x7b`.
+*   **🎨 Premium Glassmorphism UI**: Beautiful dark-mode dashboard with frosted-glass panels, custom SVG robot logo branding, responsive layouts, and modern typography.
+*   **📑 Smart Source Citations**: Every answer generated in RAG mode lists the exact document chunks retrieved, along with similarity/relevance percentages.
+*   **💡 General Notes Mode**: Quickly generate structured study guides (Definitions, Key Points, Examples, Summaries) on any topic from the LLM's general knowledge.
+*   **📥 One-Click Export**: Instantly download your generated study notes as clean text files.
+
+---
+
+## 📸 Visual Walkthrough
+
+### 🚀 Interactive Dashboard & Sidebar
+Configure your preferred AI Provider (Local or Cloud), upload your study materials, and manage your vector database collection directly from the sidebar.
+<p align="center">
+  <img src="screenshots/Home_screen.png" alt="Home Dashboard" width="100%" style="border: 2px solid #1a1a1a; border-radius: 8px; box-shadow: 4px 4px 0px 0px #1a1a1a;"/>
+</p>
+
+### 📚 Grounded Answers & Study Notes
+Generate well-structured, concise, and academic-grade study guides and answers based strictly on your document context.
+<p align="center">
+  <img src="screenshots/Results.png" alt="Generated Study Notes" width="100%" style="border: 2px solid #1a1a1a; border-radius: 8px; box-shadow: 4px 4px 0px 0px #1a1a1a;"/>
+</p>
 
 ---
 
 ## 🧩 Technical Architecture
 
-### RAG Pipeline
-
 ```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  Upload PDF  │ ──▶ │  Extract     │ ──▶ │  Chunk Text  │ ──▶ │  Embed with  │
-│  or TXT      │     │  Text        │     │  (500 chars) │     │  nomic-embed │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────┬───────┘
-                                                                      │
-                                                                      ▼
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  Grounded    │ ◀── │  Generate    │ ◀── │  Inject top  │ ◀── │  Store in    │
-│  Answer +    │     │  with Gemma  │     │  5 chunks    │     │  ChromaDB    │
-│  Sources     │     │  3 via Ollama│     │  into prompt │     │              │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-                                                ▲
-                                                │
-                                          ┌─────┴──────┐
-                                          │ User asks  │
-                                          │ a question │
-                                          └────────────┘
+┌────────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Upload PDF/   │ ──▶ │  Extract     │ ──▶ │  Chunk Text  │ ──▶ │  Embed via   │
+│  TXT Files     │     │  Text        │     │  (500 chars) │     │  nomic-embed │
+└────────────────┘     └──────────────┘     └──────────────┘     └──────┬───────┘
+                                                                        │
+                                                                        ▼
+┌────────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Grounded      │ ◀── │ Generate via │ ◀── │ Inject Top 5 │ ◀── │  Store in    │
+│  Answer +      │     │ Gemini/Groq/ │     │ Chunks into  │     │  ChromaDB    │
+│  Citations     │     │ Ollama       │     │ LLM Prompt   │     │  (Vector DB) │
+└────────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+                             ▲
+                             │
+                      ┌──────┴──────┐
+                      │  User asks  │
+                      │  a question │
+                      └─────────────┘
 ```
 
 ### Component Stack
 
 | Component | Tool | Purpose |
 |-----------|------|---------|
-| LLM | Ollama (Gemma 3 1B) | Answer generation |
-| Embeddings | Ollama (nomic-embed-text) | Document & query embedding |
-| Vector DB | ChromaDB | Persistent vector storage & retrieval |
-| PDF Parser | PyPDF2 | PDF text extraction |
-| Chunking | LangChain Text Splitters | Intelligent recursive text splitting |
-| UI | Streamlit | Web dashboard |
+| **LLM Backends** | Ollama, Google Gemini API, Groq API | Answer generation |
+| **Embeddings** | Ollama (`nomic-embed-text`) | Local vector embeddings for similarity matching |
+| **Vector DB** | ChromaDB (Persistent client) | Storing and retrieving document chunks locally |
+| **PDF Parser** | PyPDF2 | PDF text extraction |
+| **Text Splitter** | LangChain Text Splitters | Recursive character splitting (500-char chunks) |
+| **UI Frontend** | Streamlit | Glassmorphic web dashboard |
 
 ---
 
 ## 🛠️ Installation & Setup
 
 ### 1. Prerequisites
-Ensure you have **Python 3.10+** and **Ollama** installed.
+Make sure you have **Python 3.10+** and **Ollama** installed on your system.
 
 *   Download Ollama: [ollama.com/download](https://ollama.com/download)
-*   Pull the required models:
+*   Pull the local models used for embeddings and local generation:
     ```bash
-    ollama pull gemma3:1b
     ollama pull nomic-embed-text
+    ollama pull gemma3:1b
     ```
 
 ### 2. Clone and Setup
 ```bash
 # Clone the repository
-git clone https://github.com/vedantdubey19/AI-Study-Notes-Generator.git
-cd AI-Study-Notes-Generator
+git clone https://github.com/vedantdubey19/Study_Ai.git
+cd Study_Ai
 
 # Create and activate a virtual environment
 python3 -m venv venv
@@ -98,46 +114,39 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Run the Application
+### 3. Add API Keys (Optional)
+If you want to use Google Gemini or Groq, create a `.env` file in the root directory:
+```env
+GEMINI_API_KEY="your_gemini_api_key_here"
+GROQ_API_KEY="your_groq_api_key_here"
+```
+*(Note: `.env` is already added to `.gitignore` to keep your credentials safe from being pushed to GitHub).*
+
+### 4. Run the Application
 ```bash
 streamlit run streamlit_app.py --browser.gatherUsageStats false
 ```
-The application will launch at **`http://localhost:8501`**.
+The application will launch automatically in your browser at **`http://localhost:8501`**.
 
 ---
 
-## 📂 Project Structure
+## 🤝 Contributing
 
-```
-AI-Study-Notes-Generator/
-├── screenshots/               # Application UI screenshots
-│   ├── Home_screen.png
-│   ├── Generating_Notes.png
-│   └── Results.png
-├── chroma_db/                 # Persistent vector database (auto-created)
-├── streamlit_app.py           # Main Streamlit app with RAG UI
-├── rag_engine.py              # RAG backend: extraction, chunking, embedding, retrieval
-├── requirements.txt           # Python dependencies
-├── README.md                  # Project documentation
-└── .gitignore                 # Excluded files
-```
+Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 📸 How to Use
-
-1. **Upload Documents**: Drag & drop PDF or TXT files in the sidebar
-2. **Index**: Click "Index Documents" to process and embed your files
-3. **Ask Questions**: Switch to the "Ask Your Documents" tab, type your question
-4. **Get Grounded Answers**: Receive answers based on your actual documents, with source citations
-5. **General Mode**: Use the "General Notes" tab for topic-based notes from LLM knowledge
-
----
-
-## 👥 Author
+## 🔗 Connect With Me
 
 *   **Vedant Dubey** - [@vedantdubey19](https://github.com/vedantdubey19)
+*   **LinkedIn** - [vedantdubey20](https://linkedin.com/in/vedantdubey20)
 
 ---
-## Collaborative Update 
-Improved project documentatio and project details
+## Collaborative Update
+Updated project documentation, added multi-provider configuration details, contribution setup, and visual highlights.
