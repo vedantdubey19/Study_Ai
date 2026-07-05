@@ -5,10 +5,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/vedantdubey19/Study_Ai/stargazers"><img src="https://img.shields.io/github/stars/vedantdubey19/Study_Ai?style=for-the-badge&color=gold" alt="GitHub Stars"/></a>
-  <a href="https://github.com/vedantdubey19/Study_Ai/fork"><img src="https://img.shields.io/github/forks/vedantdubey19/Study_Ai?style=for-the-badge&color=blue" alt="GitHub Forks"/></a>
-  <a href="https://linkedin.com/in/vedantdubey20"><img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin&logoColor=white&color=0077B5" alt="LinkedIn"/></a>
-  <img src="https://img.shields.io/badge/Privacy-100%25%20Local-green?style=for-the-badge&logo=shield&logoColor=white&color=404040" alt="Privacy First"/>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit"/>
+  <img src="https://img.shields.io/badge/ChromaDB-1F2937?style=for-the-badge&logo=database&logoColor=white&color=2e4053" alt="ChromaDB"/>
+  <img src="https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=cpu&logoColor=white" alt="Ollama"/>
+  <img src="https://img.shields.io/badge/Google%20Gemini-8E75C2?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini"/>
+  <img src="https://img.shields.io/badge/Groq-f05023?style=for-the-badge&logo=rocket&logoColor=white" alt="Groq"/>
+  <a href="https://linkedin.com/in/vedantdubey20"><img src="https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
 </p>
 
 ---
